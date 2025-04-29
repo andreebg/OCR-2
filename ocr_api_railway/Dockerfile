@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     libsm6 \
     libxrender1 \
     libxext6 \
-    && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/*
 
 # Crea un directorio para tu aplicación
 WORKDIR /app
@@ -25,3 +25,5 @@ EXPOSE 8080
 
 # Comando para ejecutar la app
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+
+
