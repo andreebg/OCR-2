@@ -67,15 +67,3 @@ async def ocr_endpoint(file: UploadFile = File(...)):
         return JSONResponse(content=data)
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
-
-
-from fastapi import FastAPI, File, UploadFile
-from fastapi.responses import JSONResponse
-
-app = FastAPI()
-
-@app.post("/ocr")
-async def process_file(file: UploadFile = File(...)):
-    contents = await file.read()
-    # Procesamiento OCR aquí
-    return {"filename": file.filename, "size": len(contents)}
