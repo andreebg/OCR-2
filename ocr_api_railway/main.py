@@ -1,7 +1,7 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
 import pytesseract
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 import io
 import re
 import datetime
@@ -29,7 +29,7 @@ def extract_data(text):
     precio_unit = find(r"VALOR UNIT(?:ARIO)?[:\s]*(\d+[.,]\d+)")
     subtotal = find(r"(?:SUBTOTAL|SUB TOTAL)[:\s]*(\d+[.,]\d+)")
     igv = find(r"(?:IGV|IVA)[^\d]*(\d+[.,]\d+)")
-    total = find(r"TOTAL[:\s]*(\d+[.,]\d+)")
+    total = find(r"TOTAL[:\s]*(\d+[.,]\d+]?)")
 
     try:
         dt = datetime.datetime.strptime(fecha, "%d/%m/%Y")
@@ -65,5 +65,7 @@ async def ocr_endpoint(file: UploadFile = File(...)):
         text = pytesseract.image_to_string(image)
         data = extract_data(text)
         return JSONResponse(content=data)
+    except UnidentifiedImageError:
+        return JSONResponse(content={"error": "La imagen no es válida o no puede abrirse."}, status_code=400)
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
