@@ -57,7 +57,7 @@ def extract_data(text):
         "nombre_archivo_sugerido": nombre_archivo
     }
 
-@app.post("/ocr")
+@app.post("/ocr-2")
 async def ocr_endpoint(file: UploadFile = File(...)):
     try:
         contents = await file.read()
