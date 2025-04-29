@@ -1,6 +1,8 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
 import pytesseract
+pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
+
 from PIL import Image, UnidentifiedImageError
 import io
 import re
