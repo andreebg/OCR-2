@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
  && which tesseract \
  && tesseract --version
 
+
 # Crea un directorio para tu aplicación
 WORKDIR /app
 
