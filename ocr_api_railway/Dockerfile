@@ -3,6 +3,7 @@ FROM python:3.12-slim
 
 # Instala Tesseract y dependencias necesarias
 RUN apt-get update && apt-get install -y \
+
     tesseract-ocr \
     libtesseract-dev \
     libleptonica-dev \
@@ -13,6 +14,7 @@ RUN apt-get update && apt-get install -y \
  && rm -rf /var/lib/apt/lists/* \
  && which tesseract \
  && tesseract --version
+RUN which tesseract && tesseract --version
 
 
 # Crea un directorio para tu aplicación
