@@ -1,9 +1,7 @@
-# Usa una imagen base de Python con Ubuntu
 FROM python:3.12-slim
 
 # Instala Tesseract y dependencias necesarias
 RUN apt-get update && apt-get install -y \
-
     tesseract-ocr \
     libtesseract-dev \
     libleptonica-dev \
@@ -11,26 +9,16 @@ RUN apt-get update && apt-get install -y \
     libsm6 \
     libxext6 \
     libxrender1 \
- && rm -rf /var/lib/apt/lists/* \
- && which tesseract \
- && tesseract --version
+ && rm -rf /var/lib/apt/lists/*
+
+# Verificación explícita (debug)
 RUN which tesseract && tesseract --version
 
-
-# Crea un directorio para tu aplicación
 WORKDIR /app
-
-# Copia los archivos necesarios
 COPY . .
 
-# Instala las dependencias
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Expone el puerto 8080 que Railway espera
 EXPOSE 8080
-
-# Comando para ejecutar la app
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
-
-
