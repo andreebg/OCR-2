@@ -16,6 +16,9 @@ RUN apt-get update && apt-get install -y \
 # Verificación explícita para asegurarse de que Tesseract se instaló correctamente
 RUN which tesseract && tesseract --version
 
+RUN apt-get update && apt-get install -y tesseract-ocr ...
+
+
 # Establece el directorio de trabajo
 WORKDIR /app
 
@@ -30,4 +33,7 @@ RUN pip install -r requirements.txt
 EXPOSE 8080
 
 # Comando para lanzar la API con Uvicorn
+EXPOSE 8080
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+
+RUN tesseract --version && echo "Tesseract OK"
