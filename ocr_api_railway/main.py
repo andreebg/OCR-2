@@ -78,3 +78,4 @@ async def ocr_endpoint(file: UploadFile = File(...)):
         return JSONResponse(status_code=400, content={"error": "La imagen no es válida o no puede abrirse."})
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": f"Error interno: {str(e)}"})
+
