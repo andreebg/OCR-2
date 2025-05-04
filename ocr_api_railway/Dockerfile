@@ -1,7 +1,7 @@
-# Usa una imagen base ligera de Python 3.12
+# Imagen base de Python
 FROM python:3.12-slim
 
-# Instala Tesseract OCR y sus dependencias necesarias
+# Instala Tesseract y librerías necesarias
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
     libtesseract-dev \
@@ -10,30 +10,23 @@ RUN apt-get update && apt-get install -y \
     libsm6 \
     libxext6 \
     libxrender1 \
-    curl \
  && rm -rf /var/lib/apt/lists/*
 
-# Verificación explícita para asegurarse de que Tesseract se instaló correctamente
+# Verifica instalación
 RUN which tesseract && tesseract --version
-
-RUN apt-get update && apt-get install -y tesseract-ocr ...
-
 
 # Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia el código de la aplicación al contenedor
+# Copia los archivos
 COPY . .
 
-# Instala pip y las dependencias necesarias
+# Instala dependencias de Python
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Expone el puerto 8080 (requerido por Railway)
+# Expone el puerto para Railway
 EXPOSE 8080
 
-# Comando para lanzar la API con Uvicorn
-EXPOSE 8080
+# Comando para ejecutar FastAPI con Uvicorn
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
-
-RUN tesseract --version && echo "Tesseract OK"
